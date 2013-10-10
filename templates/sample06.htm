@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<title>Powered by {{ @VERSION }}</title>
+	<style type="text/css">
+		{{ Web::minify('templates/',array('style.css'),FALSE) }}
+	</style>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="http://dev-apps.groupdocs.com/content/signaturewidgets/groupdocs.sign.js"></script>
+</head>
+<body>
+<h3 style="text-align:center;"><a href="/index.php">GroupDocs PHP SDK Samples</a> - Sample6</h3>
+
+<div class='samplecontent' style="padding:10px;">
+   <span class="description"><i>This sample will show how to add provided signature to provided document using PHP SDK. Signed file will be uploaded to GroupDocs account and its GUID will be returned and embed into webpage with GroupDocs Ebedded Viewer.</i></span> <br/>
+    <br />
+    <span class="documentation"><a href="/docs/sample06.html">Docs for this sample</a></span>
+    <br />
+   <div id="files_form">
+    <form action='sample06' method="post" enctype = 'multipart/form-data'>
+        <br />
+        <label for='client_id'>GroupDocs ClientID</label>
+        <br />
+        <input type='text' id='client_id' name='client_id' />
+        <br />
+        <label for='private_key'>GroupDocs PrivateKey</label>
+        <br />
+        <input type='text' id='private_key' name='private_key' />
+        <br />
+        <label for='fi_document'>Document to sign</label>
+        <br />
+        <input type='file' id='fi_document' name="fi_document" />
+        <br />
+        <label for='fi_signature'>Signature</label>
+        <br />
+        <input type='file' id='fi_signature' name="fi_signature" />
+        <br />
+        <label for='server_type'>Base path<span class="optional">(Optional)</span></label>
+        <br />
+        <input type ="text" name="server_type" id="server_type" />
+        <br />
+        <input type='submit' value='Sign' id="btnLoad" />
+        <br />
+        <br />
+    </form>
+    </div>
+    <div  style="padding:20px; border:1px solid black;">
+        <p> Results:</p>
+        {{ @error }}
+        <iframe src="{{@iframe}}" frameborder="0" width="600" height="500"></iframe>
+        
+    </div>
+</div>
+
+ <include href="links.htm" />
+
+</body>
+</html>

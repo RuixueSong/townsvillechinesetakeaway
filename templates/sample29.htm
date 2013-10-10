@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Powered by {{ @VERSION }}</title>
+    <style type="text/css">
+        {{ Web::minify('templates/',array('style.css'),FALSE) }}
+    </style>
+    <script type="text/javascript" src="//api.filepicker.io/v1/filepicker.js"></script>
+</head>
+<body>
+<h3 style="text-align:center;"><a href="/index.php">GroupDocs PHP SDK Samples</a> - Sample29</h3>
+
+<div class='samplecontent' style="padding:10px;">
+    <span class="description"><i>This sample will show how to use Filepicker.io to upload document and get it's URL using PHP SDK</i></span> <br/>
+    <br />
+    <span class="documentation"><a href="/docs/sample29.html">Docs for this sample</a></span>
+    <br />
+    <p><font color="red">{{@error}}</font>
+    <div id="requestForm" style="padding:20px; border:1px solid black;">
+        <p> Click "Pick file" to select file which will be uploaded and shown in iframe </p>
+        <form name="gdform" action="sample29" method = "post" enctype = 'multipart/form-data' >
+            <label for='client_id'>GroupDocs ClientID</label>
+            <br />
+            <input type='text' name='client_id' value="{{@userId}}" />
+            <br />
+            <label for='server_type'>Base path<span class="optional">(Optional)</span></label>
+            <br />
+            <input type ="text" name="server_type" id="server_type" />
+            <br />
+            <input id="gdButton" type='filepicker' data-fp-store-access="public" data-fp-apikey="AjhtkJk6rRLWQxanzZAFVz" value='Upload file' data-fp-store-path="files/" onchange="upload(event.fpfile.url);"/>
+        </form>
+         <span id="results_status" style="color:red;display:none;"> (Please wait for ajax response) </span>
+    </div>
+    <div id="iframeDiv" style="padding:20px; border:1px solid black; display: none;">
+              <iframe id="iframe" frameborder="0" width="800" height="650" src=""></iframe>
+    </div>
+</div>
+
+ <include href="links.htm" />
+  <script type="text/javascript">
+      function upload(url) {
+            form = document.forms.gdform;
+            var preLoad = document.getElementById("results_status");
+            preLoad.style.display = "block";
+            document.getElementById("gdButton").style.display = "none";
+            xhttp=new XMLHttpRequest();
+            xhttp.onreadystatechange= function() {
+
+                if (xhttp.readyState==4 && xhttp.status==200){
+                    result = eval( '('+xhttp.responseText+')' );
+                    iframe = result.iframe;
+                    error = result['error'];
+
+                    if (iframe != null) {
+                        
+                        var button = document.getElementById("gdButton").style.display = "block";
+                        var preLoad = document.getElementById("results_status");
+                        preLoad.style.display = "none";
+                        var iframeDiv = document.getElementById("iframeDiv");
+                          var iframeShow = document.getElementById("iframe");
+                          iframeShow.setAttribute("src", iframe);
+                        iframeDiv.style.display = "block";
+                    } else if (error != null) {
+                        var message = '<span style="color:red;>' + error + '</span>';
+                       
+                        iframe.style.display = "block";
+
+                    }
+
+                }
+            }
+
+            xhttp.open('POST','/inc_samples/sample29.php',true);
+            xhttp.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
+            var str= 'url=' + url + '&basePath=' + document.forms.gdform.server_type.value + '&clientId=' + document.forms.gdform.client_id.value;
+            xhttp.send(str);
+        
+      }
+  </script>
+</body>
+</html>

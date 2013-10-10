@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Powered by {{ @VERSION }}</title>
+    <style type="text/css">
+        {{ Web::minify('templates/',array('style.css'),FALSE) }}
+    </style>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" ></script>
+</head>
+<body>
+<h3 style="text-align:center;"><a href="/index.php">GroupDocs PHP SDK Samples</a> - Sample32</h3>
+
+<div class='samplecontent' style="padding:10px;">
+    <span class="description"><i>This sample will show how to create signature form, publish it and configure notification when it was signed using PHP SDK</i></span> <br/>
+    <br />
+    <span class="documentation"><a href="/docs/sample32.html">Docs for this sample</a></span>
+    <br />
+    <br/><p>The data you provided:
+    <p>ClientID = {{@userId}}
+    <p>PrivateKey = {{@privateKey}}
+    <p>Form = {{@tempalte_guid}}
+    <p>Email = {{@email}}
+    <p>Callback Url = {{@callbackUrl}}
+    <p><span class="documentation"><a href='/templates/merge_field.docx'>Document with merge fields sample</a></span>
+    <p><font color="red">{{@error}}</font>
+    <div id="requestForm" style="padding:20px; border:1px solid black;">
+        <p> Enter data for request and press "Signature" button </p>
+        <form action="sample32" method = "post" enctype = 'multipart/form-data'>
+            <br />
+            <label for='client_id'>GroupDocs Client ID</label>
+            <br />
+            <input type='text' name='client_id' value="{{@userId}}" />
+            <br />
+            <br />
+            <label for='private_key'>GroupDocs PrivateKey</label>
+            <br />
+            <input type='text' name='private_key'  value="{{@privateKey}}" />
+            <br />
+             <input type="radio" name="sourse" value="form" id="form_radion" onClick="display('form');" checked>From GUID </input>
+            <br />
+            <input type="radio" name="sourse" value="template" id="template_radio" onClick="display('template');" >Template GUID </input>
+            <br />
+            <br />
+            <label for="form_guid" id="form_label" >GroupDoc Form Guid</label>
+            <br />
+            <input type='text' id="form" name='form_guid' value="{{@form_guid}}" />
+            <br />
+            <label for="template_guid" id="template_label" style="display:none;">GroupDocs template Guid</label>
+            <br />
+            <input type='text' name='template_guid' id="template" value="{{@tempalte_guid}}" style="display:none;"/>
+            <br />
+            <label for="email">Email for notification</label>
+            <br />
+            <input type='text' name='email' value="{{@email}}" />
+            <br />
+            <label for='callbackUrl'>callbackUrl<span class="optional"> For test Callback you can use this URL: http://groupdocs-php-samples.herokuapp.com/callbacks/publish_callback</span></label>
+            <br />
+            <input type='text' name='callbackUrl' id="callbackUrl" value="{{@callbackUrl}}" />
+            <br />
+            <label for='server_type'>Base path<span class="optional">(Optional)</span></label>
+            <br />
+            <input type ="text" name="server_type" id="server_type" />
+            <br />
+            <input type='submit' value='Signature'/>
+            <span id="results_status" style="color:red;display:none;"> (Please wait for ajax response) </span>
+        </form>
+    </div>
+    <div id = 'result' style="padding:20px; border:1px solid black;" >
+        <p> Results: </p>
+        <font color="green">{{@message}}</font>
+        <iframe id='downloadframe' src="{{@url}}" width = '1000' height = '1000'></iframe>
+        
+    </div>
+    <br/>
+</div>
+
+<include href="links.htm" />
+<script>
+ function display(_element_id) {
+
+             if (_element_id == "form") {
+                 var element1 = document.getElementById("form");
+                 var element2 = document.getElementById("form_label");
+                 var element3 = document.getElementById("template");
+                 var element4 = document.getElementById("template_label");
+           
+                 element1.style.display = "inline";
+                 element2.style.display = "inline";
+                 element3.style.display = "none";
+                 element4.style.display = "none";
+                
+
+             }
+
+             if (_element_id == "template") {
+                 var element1 = document.getElementById("form");
+                 var element2 = document.getElementById("form_label");
+                 var element3 = document.getElementById("template");
+                 var element4 = document.getElementById("template_label");
+           
+                 element1.style.display = "none";
+                 element2.style.display = "none";
+                 element3.style.display = "inline";
+                 element4.style.display = "inline";
+                
+
+             }
+ }
+</script>
+</body>
+</html>

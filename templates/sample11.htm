@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Powered by {{ @VERSION }}</title>
+    <style type="text/css">
+        {{ Web::minify('templates/',array('style.css'),FALSE) }}
+    </style>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+</head>
+<body>
+<h3 style="text-align:center;"><a href="/index.php">GroupDocs PHP SDK Samples</a> - Sample11</h3>
+
+<div class='samplecontent' style="padding:10px;">
+    <span class="description"><i>This sample will show how programmatically create and post an annotation into document using PHP SDK. How to delete the annotation</i></span> <br/>
+    <br />
+    <span class="documentation"><a href="/docs/sample11.html">Docs for this sample</a></span>
+    <br />
+    <br/><p>You entered:
+    <p>ClientID = {{@userId}}
+    <p>PrivateKey = {{@privateKey}}
+    <p>FileId = {{@fileId}}
+        <table style="border:1px double black;">
+            <tr>
+                <th colspan="2">Field</th>
+            </tr>
+            <tr>
+                <td>Annotation Id</td><td>{{@annotationId}}</td>
+            </tr>
+            <tr>
+                <td>Annotation Type</td><td>{{@annotationType}}</td>
+            </tr>
+            <tr>
+                <td>Annotation Text</td><td>{{@annotationText}}</td>
+            </tr>
+           
+        </table>
+    <p><font color="red">{{@error}}</font>
+    <div id="requestForm" style="padding:20px; border:1px solid black;">
+        <p> Enter data for request and press "Make request" button </p>
+        <form action="sample11" method = "post" enctype = 'multipart/form-data'>
+            <input type="hidden" name="annotationId" value="{{@annotationId}}">
+            <label for='client_id'>GroupDocs ClientID</label>
+            <br />
+            <input type='text' name='client_id' value="{{@userId}}" />
+            <br />
+            <label for='private_key'>GroupDocs PrivateKey</label>
+            <br />
+            <input type='text' name='private_key'  value="{{@privateKey}}" />
+            <br />
+            <input type="radio" name="sourse" value="guid" id="id" onClick="display('guid');" checked>File ID (GUID) </input>
+            <br />
+            <input type="radio" name="sourse" value="local" id="localField" onClick="display('local');" >Upload local file </input>
+            <br />
+            <input type="radio" name="sourse" value="url" id="urlField" onClick="display('url');" >Upload file from URL </input>
+            <br />
+            <br />
+            <label for='private_key' id="guid">GroupDocs fileID</label>
+            <br />
+            <input type='text' name='fileId' id="guidfield" value="{{@fileId}}" />
+            
+            <label for='file' id="file" style="display:none;">Local file</label>
+            <br />
+            <input type='file' name='file' id="filefield" style="display:none;" />
+
+            <label for='private_key' style="display:none;" id="url">File URL</label>
+            <br />
+            <input type='text' name='url'  value="" id="urlfield" style="display:none;" />
+            <br />
+            <label for='server_type'>Base path<span class="optional">(Optional)</span></label>
+            <br />
+            <input type ="text" name="server_type" id="server_type" />
+            <br />
+            <label for='annotation_type'>Annotation Type</label>
+            <br />
+            <select name="annotation_type" id="annotation_type">
+                <option value="text">Text</option>
+                <option value="area">Area</option>
+                <option selected value="point">Point</option>
+            </select>
+            <br />
+
+            <fieldset style="border: thin solid #333; padding: 1em; margin-bottom: 5px;">
+                <legend>Parameters (all are required)</legend>
+                <div>
+                    <span>Box X</span>
+                    <input minlength="0" name="box_x" placeholder="double" type="text" value="">
+                </div>
+                <div>
+                    <span>Box Y</span>
+                    <input minlength="0" name="box_y" placeholder="double" type="text" value="">
+                </div>
+
+                <div id="box-params" style="display:none;">
+                    <div>
+                        <span>Box Width</span>
+                        <input minlength="0" name="box_width" placeholder="double" type="text" value="">
+                    </div>
+                    <div>
+                        <span>Box Height</span>
+                        <input minlength="0" name="box_height" placeholder="double" type="text" value="">
+                    </div>
+                </div>
+
+                <div id="annotation-position" style="display:none;">
+                    <div>
+                        <span>Annotation Position X</span>
+                        <input minlength="0" name="annotationPosition_x" placeholder="double" type="text" value="">
+                    </div>
+                    <div>
+                        <span>Annotation Position Y</span>
+                        <input minlength="0" name="annotationPosition_Y" placeholder="double" type="text" value="">
+                    </div>
+                </div>
+
+
+                <div id="text-params" style="display:none;">
+                    <div>
+                        <span>Range Position</span>
+                        <input minlength="0" name="range_position" placeholder="double" type="text" value="">
+                    </div>
+                    <div>
+                        <span>Range Length</span>
+                        <input minlength="0" name="range_length" placeholder="double" type="text" value="">
+                    </div>
+                </div>
+
+                <div>
+                    <span>Text</span>
+                    <input minlength="0" name="text" placeholder="string" type="text" value="">
+                </div>
+            </fieldset>
+
+            <input type='submit' value='Make Request'/>
+             
+            <check if="{{ @annotationId }}">
+                <true>
+                    <tr>
+                        <td colspan="2">
+                            <button name="delete_annotation" value="1">Delete annotation</button>
+                        </td>
+                    </tr>
+                </true>
+            </check>
+
+         </form>
+
+    </div>
+   <div  style="padding:20px; border:1px solid black;">
+        <iframe src="{{@url}}"></iframe>
+   </div>
+</div>
+
+ <include href="links.htm" />
+
+<script>
+    $(function() {
+        $('select[name="annotation_type"]').change(function() {
+            var obj = $(this);
+
+            if (obj.val() == "text") {
+                $('#text-params, #annotation-position, #box-params').show();
+            }
+            else if (obj.val() == "area") {
+                $('#box-params').show();
+                $('#annotation-position').hide();
+                $('#text-params').hide();
+            }
+            else if (obj.val() == "point") {
+                $('#annotation-position').hide();
+                $('#box-params').hide();
+                $('#text-params').hide();
+            }
+        });
+    });
+     function display(_element_id) {
+
+             if (_element_id == "guid") {
+                 var element1 = document.getElementById("file");
+                 var element2 = document.getElementById("filefield");
+                 var element3 = document.getElementById("url");
+                 var element4 = document.getElementById("urlfield");
+                 var element5 = document.getElementById("guid");
+                 var element6 = document.getElementById("guidfield");
+                 element1.style.display = "none";
+                 element2.style.display = "none";
+                 element3.style.display = "none";
+                 element4.style.display = "none";
+                 element5.style.display = "inline";
+                 element6.style.display = "inline";
+
+             }
+
+             if (_element_id == "local") {
+                 var element1 = document.getElementById("file");
+                 var element2 = document.getElementById("filefield");
+                 var element3 = document.getElementById("url");
+                 var element4 = document.getElementById("urlfield");
+                 var element5 = document.getElementById("guid");
+                 var element6 = document.getElementById("guidfield");
+                 element1.style.display = "inline";
+                 element2.style.display = "inline";
+                 element3.style.display = "none";
+                 element4.style.display = "none";
+                 element5.style.display = "none";
+                 element6.style.display = "none";
+
+             }
+
+             if (_element_id == "url") {
+                 var element1 = document.getElementById("url");
+                 var element2 = document.getElementById("urlfield");
+                 var element3 = document.getElementById("file");
+                 var element4 = document.getElementById("filefield");
+                 var element5 = document.getElementById("guid");
+                 var element6 = document.getElementById("guidfield");
+                 element1.style.display = "inline";
+                 element2.style.display = "inline";
+                 element3.style.display = "none";
+                 element4.style.display = "none";
+                 element5.style.display = "none";
+                 element6.style.display = "none";
+             }
+
+         }
+</script>
+
+</body>
+</html>

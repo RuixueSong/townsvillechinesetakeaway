@@ -1,0 +1,5 @@
+{
+    "require": {
+        "groupdocs/groupdocs-php": "v1.6.0"
+    }
+}

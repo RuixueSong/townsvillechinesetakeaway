@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Powered by {{ @VERSION }}</title>
+    <style type="text/css">
+        {{ Web::minify('templates/',array('style.css'),FALSE) }}
+    </style>
+</head>
+<body>
+<h3 style="text-align:center;"><a href="/index.php">GroupDocs PHP SDK Samples</a> - Sample30</h3>
+
+<div class='samplecontent' style="padding:10px;">
+    <span class="description"><i>This sample will show how delete file from GroupDocs Storage using PHP SDK</i></span> <br/>
+    <br />
+    <span class="documentation"><a href="/docs/sample30.html">Docs for this sample</a></span>
+    <br />
+    <br/><p>You entered:
+    <p>ClientID = {{@userId}}
+    <p>PrivateKey = {{@privateKey}}
+    <p>FileId = {{@fileName}}
+    <p><font color="red">{{@error}}</font>
+    <div id="requestForm" style="padding:20px; border:1px solid black;">
+        <p> Enter data for delete file and press "Delete" button </p>
+        <form action="sample30" method = "post" enctype = 'multipart/form-data'>
+            <label for='client_id'>GroupDocs ClientID</label>
+            <br />
+            <input type='text' name='client_id' value="{{@userId}}" />
+            <br />
+            <label for='private_key'>GroupDocs PrivateKey</label>
+            <br />
+            <input type='text' name='private_key'  value="{{@privateKey}}" />
+            <br />
+            <label for='fileName'>File name</label>
+            <br />
+            <input type='text' name='fileName'  value="{{@fileName}}" />
+            <br />
+            <label for='server_type'>Base path<span class="optional">(Optional)</span></label>
+            <br />
+            <input type ="text" name="server_type" id="server_type" />
+            <br />
+            <input type='submit' value='Delete'/>
+        </form>
+    </div>
+    <div  style="padding:20px; border:1px solid black;">
+        <p>Results:</p>
+       <p>{{@message}}</p>
+    </div>
+</div>
+
+<include href="links.htm" />
+</body>
+</html>

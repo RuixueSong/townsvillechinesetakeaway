@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>sample11.php</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>sample11.php</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="preprocessor">&lt;?php</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap for-h3">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <h3>This sample will show how programmatically create and post an annotation into document. How to delete the annotation</h3>
+<p>Set variables and get POST data</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>F3::set(<span class="string">'userId'</span>, <span class="string">''</span>);
+F3::set(<span class="string">'privateKey'</span>, <span class="string">''</span>);
+F3::set(<span class="string">'fileId'</span>, <span class="string">''</span>);
+<span class="variable">$clientId</span> = F3::get(<span class="string">'POST["client_id"]'</span>);
+<span class="variable">$privateKey</span> = F3::get(<span class="string">'POST["private_key"]'</span>);
+
+<span class="keyword">if</span> (<span class="keyword">empty</span>(<span class="variable">$clientId</span>) || <span class="keyword">empty</span>(<span class="variable">$privateKey</span>)) {
+    <span class="variable">$error</span> = <span class="string">'Please enter all required parameters'</span>;
+    f3::set(<span class="string">'error'</span>, <span class="variable">$error</span>);
+} <span class="keyword">else</span> {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <p>Get base path</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="variable">$basePath</span> = f3::get(<span class="string">'POST["server_type"]'</span>);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p>Get entered by user data</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="variable">$fileGuId</span> = F3::get(<span class="string">'POST["fileId"]'</span>);
+    <span class="variable">$url</span> = F3::get(<span class="string">'POST["url"]'</span>);
+    <span class="variable">$file</span> = <span class="variable">$_FILES</span>[<span class="string">'file'</span>];</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap for-h3">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <h3>Create Signer, ApiClient and Annotation Api objects</h3>
+<p>Create signer object</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="variable">$signer</span> = <span class="keyword">new</span> GroupDocsRequestSigner(<span class="variable">$privateKey</span>);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <p>Create apiClient object</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="variable">$apiClient</span> = <span class="keyword">new</span> ApiClient(<span class="variable">$signer</span>);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <p>Create Annotation object</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="variable">$antApi</span> = <span class="keyword">new</span> AntApi(<span class="variable">$apiClient</span>);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-8">&#182;</a>
+              </div>
+              <p>Create Storage Api object</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="variable">$storageApi</span> = <span class="keyword">new</span> StorageApi(<span class="variable">$apiClient</span>);
+    <span class="keyword">if</span> (<span class="variable">$basePath</span> == <span class="string">""</span>) {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-9">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-9">&#182;</a>
+              </div>
+              <p>If base base is empty seting base path to prod server</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="variable">$basePath</span> = <span class="string">'https://api.groupdocs.com/v2.0'</span>;
+    }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-10">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-10">&#182;</a>
+              </div>
+              <p>Set base path</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="variable">$antApi</span>-&gt;setBasePath(<span class="variable">$basePath</span>);
+    <span class="variable">$storageApi</span>-&gt;setBasePath(<span class="variable">$basePath</span>);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-11">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-11">&#182;</a>
+              </div>
+              <p>Check if user choose upload file from URL</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="keyword">if</span> (<span class="variable">$url</span> != <span class="string">""</span>) {
+        <span class="variable">$fileGuId</span> = <span class="string">""</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-12">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-12">&#182;</a>
+              </div>
+              <p>Upload file from URL</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="variable">$uploadResult</span> = <span class="variable">$storageApi</span>-&gt;UploadWeb(<span class="variable">$clientId</span>, <span class="variable">$url</span>);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-13">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-13">&#182;</a>
+              </div>
+              <p>Check is file uploaded</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="keyword">try</span> {
+            <span class="keyword">if</span> (<span class="variable">$uploadResult</span>-&gt;status == <span class="string">"Ok"</span>) {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-14">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-14">&#182;</a>
+              </div>
+              <p>Get file GUID</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>                <span class="variable">$fileId</span> = <span class="variable">$uploadResult</span>-&gt;result-&gt;guid;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-15">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-15">&#182;</a>
+              </div>
+              <p>If it isn&#39;t uploaded throw exception to template</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>            } <span class="keyword">else</span> {
+                <span class="keyword">throw</span> <span class="keyword">new</span> <span class="keyword">Exception</span>(<span class="variable">$uploadResult</span>-&gt;error_message);
+            }
+        } <span class="keyword">catch</span> (<span class="keyword">Exception</span> <span class="variable">$e</span>) {
+            <span class="variable">$error</span> = <span class="string">'ERROR: '</span> . <span class="variable">$e</span>-&gt;getMessage() . <span class="string">"\n"</span>;
+            f3::set(<span class="string">'error'</span>, <span class="variable">$error</span>);
+        }
+    }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-16">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-16">&#182;</a>
+              </div>
+              <p>Check is user choose upload local file</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="keyword">if</span> (<span class="variable">$_FILES</span>[<span class="string">'file'</span>][<span class="string">"name"</span>] != <span class="string">""</span>) {
+        <span class="variable">$fileGuId</span> = <span class="string">""</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-17">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-17">&#182;</a>
+              </div>
+              <p>Temp name of the file</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="variable">$tmpName</span> = <span class="variable">$file</span>[<span class="string">'tmp_name'</span>];</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-18">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-18">&#182;</a>
+              </div>
+              <p>Original name of the file</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="variable">$name</span> = <span class="variable">$file</span>[<span class="string">'name'</span>];</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-19">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-19">&#182;</a>
+              </div>
+              <p>Creat file stream</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="variable">$fs</span> = FileStream::fromFile(<span class="variable">$tmpName</span>);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-20">
+            <div class="annotation">
+              
+              <div class="pilwrap for-h3">
+                <a class="pilcrow" href="#section-20">&#182;</a>
+              </div>
+              <h3>Make a request to Storage API using clientId</h3>
+<p>Upload file to current user storage</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="keyword">try</span> {
+            <span class="variable">$uploadResult</span> = <span class="variable">$storageApi</span>-&gt;Upload(<span class="variable">$clientId</span>, <span class="variable">$name</span>, <span class="string">'uploaded'</span>, <span class="string">""</span>, <span class="variable">$fs</span>);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-21">
+            <div class="annotation">
+              
+              <div class="pilwrap for-h3">
+                <a class="pilcrow" href="#section-21">&#182;</a>
+              </div>
+              <h3>Check if file uploaded successfully</h3>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>            <span class="keyword">if</span> (<span class="variable">$uploadResult</span>-&gt;status == <span class="string">"Ok"</span>) {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-22">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-22">&#182;</a>
+              </div>
+              <p>Get file GUID</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>                <span class="variable">$fileId</span> = <span class="variable">$uploadResult</span>-&gt;result-&gt;guid;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-23">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-23">&#182;</a>
+              </div>
+              <p>If it isn&#39;t uploaded throw exception to template</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>            } <span class="keyword">else</span> {
+                <span class="keyword">throw</span> <span class="keyword">new</span> <span class="keyword">Exception</span>(<span class="variable">$uploadResult</span>-&gt;error_message);
+            }
+        } <span class="keyword">catch</span> (<span class="keyword">Exception</span> <span class="variable">$e</span>) {
+            <span class="variable">$error</span> = <span class="string">'ERROR: '</span> . <span class="variable">$e</span>-&gt;getMessage() . <span class="string">"\n"</span>;
+            f3::set(<span class="string">'error'</span>, <span class="variable">$error</span>);
+        }
+    }
+    <span class="keyword">if</span> (<span class="variable">$fileGuId</span> != <span class="string">""</span>) {
+        <span class="variable">$fileId</span> = <span class="variable">$fileGuId</span>;
+    }
+    <span class="variable">$annotationType</span> = F3::get(<span class="string">'POST["annotation_type"]'</span>);
+    <span class="variable">$replyText</span> = F3::get(<span class="string">'POST["text"]'</span>);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-24">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-24">&#182;</a>
+              </div>
+              <p>Delete annotation if Delete Button clicked</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="keyword">if</span> (F3::get(<span class="string">'POST["delete_annotation"]'</span>) == <span class="string">"1"</span>) {
+        <span class="variable">$antApi</span>-&gt;DeleteAnnotation(<span class="variable">$clientId</span>, F3::get(<span class="string">'POST["annotationId"]'</span>));
+    }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-25">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-25">&#182;</a>
+              </div>
+              <p>Required parameters</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="variable">$allParams</span> = <span class="keyword">array</span>(<span class="string">'annotation_type'</span>, <span class="string">'box_x'</span>, <span class="string">'box_y'</span>, <span class="string">'text'</span>);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-26">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-26">&#182;</a>
+              </div>
+              <p>Added required parameters depends on  annotation type [&#39;type&#39; or &#39;area&#39;]</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="keyword">if</span> (<span class="variable">$annotationType</span> == <span class="string">"text"</span>)
+        <span class="variable">$allParams</span> = array_merge(<span class="variable">$allParams</span>, <span class="keyword">array</span>(<span class="string">'box_width'</span>, <span class="string">'box_height'</span>, <span class="string">'annotationPosition_x'</span>,
+            <span class="string">'annotationPosition_y'</span>, <span class="string">'range_position'</span>, <span class="string">'range_length'</span>));
+    <span class="keyword">elseif</span> (<span class="variable">$annotationType</span> == <span class="string">"area"</span>)
+        <span class="variable">$allParams</span> = array_merge(<span class="variable">$allParams</span>, <span class="keyword">array</span>(<span class="string">'box_width'</span>, <span class="string">'box_height'</span>));</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-27">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-27">&#182;</a>
+              </div>
+              <p>Checking required parameters</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="keyword">foreach</span> (<span class="variable">$allParams</span> <span class="keyword">as</span> <span class="variable">$param</span>) {
+        <span class="variable">$needParam</span> = F3::get(<span class="string">'POST["'</span> . <span class="variable">$param</span> . <span class="string">'"]'</span>);
+        <span class="keyword">if</span> (!<span class="keyword">isset</span>(<span class="variable">$needParam</span>) <span class="keyword">or</span> <span class="keyword">empty</span>(<span class="variable">$needParam</span>)) {
+            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="keyword">Exception</span>(<span class="string">'Please enter all required parameters'</span>);
+        }
+    }
+    <span class="variable">$types</span> = <span class="keyword">array</span>(<span class="string">'text'</span> =&gt; <span class="string">"0"</span>, <span class="string">"area"</span> =&gt; <span class="string">"1"</span>, <span class="string">"point"</span> =&gt; <span class="string">"2"</span>);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-28">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-28">&#182;</a>
+              </div>
+              <p>reply text</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="variable">$reply</span> = <span class="keyword">new</span> AnnotationReplyInfo();
+    <span class="variable">$reply</span>-&gt;text = <span class="variable">$replyText</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-29">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-29">&#182;</a>
+              </div>
+              <p>Annotation Info</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="variable">$annotationInfo</span> = <span class="keyword">new</span> AnnotationInfo();
+    <span class="variable">$annotationInfo</span>-&gt;replies = <span class="keyword">array</span>(<span class="variable">$reply</span>);
+    <span class="variable">$annotationInfo</span>-&gt;type = <span class="variable">$types</span>[<span class="variable">$annotationType</span>];</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-30">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-30">&#182;</a>
+              </div>
+              <p>construct annotation info depends on annotation type
+text annotation</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="keyword">if</span> (<span class="variable">$annotationType</span> == <span class="string">"text"</span>) {
+        <span class="variable">$range</span> = <span class="keyword">new</span> Range();
+        <span class="variable">$range</span>-&gt;position = F3::get(<span class="string">'POST["range_position"]'</span>);
+        <span class="variable">$range</span>-&gt;length = F3::get(<span class="string">'POST["range_length"]'</span>);
+        <span class="variable">$box</span> = <span class="keyword">new</span> Rectangle();
+        <span class="variable">$box</span>-&gt;x = F3::get(<span class="string">'POST["box_x"]'</span>);
+        <span class="variable">$box</span>-&gt;y = F3::get(<span class="string">'POST["box_y"]'</span>);
+        <span class="variable">$box</span>-&gt;width = F3::get(<span class="string">'POST["box_width"]'</span>);
+        <span class="variable">$box</span>-&gt;height = F3::get(<span class="string">'POST["box_height"]'</span>);
+        <span class="variable">$point</span> = <span class="keyword">new</span> Point();
+        <span class="variable">$point</span>-&gt;x = F3::get(<span class="string">'POST["annotationPosition_x"]'</span>);
+        <span class="variable">$point</span>-&gt;y = F3::get(<span class="string">'POST["annotationPosition_y"]'</span>);
+        <span class="variable">$annotationInfo</span>-&gt;box = <span class="variable">$box</span>;
+        <span class="variable">$annotationInfo</span>-&gt;annotationPosition = <span class="variable">$point</span>;
+        <span class="variable">$annotationInfo</span>-&gt;range = <span class="variable">$range</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-31">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-31">&#182;</a>
+              </div>
+              <p>area annotation</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    } <span class="keyword">elseif</span> (<span class="variable">$annotationType</span> == <span class="string">"area"</span>) {
+        <span class="variable">$box</span> = <span class="keyword">new</span> Rectangle();
+        <span class="variable">$box</span>-&gt;x = F3::get(<span class="string">'POST["box_x"]'</span>);
+        <span class="variable">$box</span>-&gt;y = F3::get(<span class="string">'POST["box_y"]'</span>);
+        <span class="variable">$box</span>-&gt;width = F3::get(<span class="string">'POST["box_width"]'</span>);
+        <span class="variable">$box</span>-&gt;height = F3::get(<span class="string">'POST["box_height"]'</span>);
+        <span class="variable">$point</span> = <span class="keyword">new</span> Point();
+        <span class="variable">$point</span>-&gt;x = <span class="number">0</span>;
+        <span class="variable">$point</span>-&gt;y = <span class="number">0</span>;
+        <span class="variable">$annotationInfo</span>-&gt;box = <span class="variable">$box</span>;
+        <span class="variable">$annotationInfo</span>-&gt;annotationPosition = <span class="variable">$point</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-32">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-32">&#182;</a>
+              </div>
+              <p>point annotation</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    } <span class="keyword">elseif</span> (<span class="variable">$annotationType</span> == <span class="string">"point"</span>) {
+        <span class="variable">$box</span> = <span class="keyword">new</span> Rectangle();
+        <span class="variable">$box</span>-&gt;x = F3::get(<span class="string">'POST["box_x"]'</span>);
+        <span class="variable">$box</span>-&gt;y = F3::get(<span class="string">'POST["box_y"]'</span>);
+        <span class="variable">$box</span>-&gt;width = <span class="number">0</span>;
+        <span class="variable">$box</span>-&gt;height = <span class="number">0</span>;
+        <span class="variable">$point</span> = <span class="keyword">new</span> Point();
+        <span class="variable">$point</span>-&gt;x = <span class="number">0</span>;
+        <span class="variable">$point</span>-&gt;y = <span class="number">0</span>;
+        <span class="variable">$annotationInfo</span>-&gt;box = <span class="variable">$box</span>;
+        <span class="variable">$annotationInfo</span>-&gt;annotationPosition = <span class="variable">$point</span>;
+    }
+    F3::set(<span class="string">'userId'</span>, <span class="variable">$clientId</span>);
+    F3::set(<span class="string">'privateKey'</span>, <span class="variable">$privateKey</span>);
+    F3::set(<span class="string">'fileId'</span>, <span class="variable">$fileId</span>);
+    <span class="keyword">try</span> {
+        <span class="variable">$createAnnotation</span> = <span class="variable">$antApi</span>-&gt;CreateAnnotation(<span class="variable">$clientId</span>, <span class="variable">$fileId</span>, <span class="variable">$annotationInfo</span>);
+        <span class="keyword">if</span> (<span class="variable">$createAnnotation</span>-&gt;status == <span class="string">"Ok"</span>) {
+            <span class="keyword">if</span> (<span class="variable">$createAnnotation</span>-&gt;result) {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-33">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-33">&#182;</a>
+              </div>
+              <p>Generation of iframe URL using fileGuId</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>                <span class="keyword">if</span> (<span class="variable">$basePath</span> == <span class="string">"https://api.groupdocs.com/v2.0"</span>) {
+                    <span class="variable">$iframe</span> = <span class="string">'http://apps.groupdocs.com/document-annotation2/embed/'</span> .
+                            <span class="variable">$createAnnotation</span>-&gt;result-&gt;documentGuid . <span class="string">'?frameborder="0" width="720" height="600"'</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-34">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-34">&#182;</a>
+              </div>
+              <p>iframe to dev server</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>                } <span class="keyword">elseif</span> (<span class="variable">$basePath</span> == <span class="string">"https://dev-api.groupdocs.com/v2.0"</span>) {
+                    <span class="variable">$iframe</span> = <span class="string">'http://dev-apps.groupdocs.com/document-annotation2/embed/'</span> .
+                            <span class="variable">$createAnnotation</span>-&gt;result-&gt;documentGuid . <span class="string">'?frameborder="0" width="720" height="600"'</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-35">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-35">&#182;</a>
+              </div>
+              <p>iframe to test server</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>                } <span class="keyword">elseif</span> (<span class="variable">$basePath</span> == <span class="string">"https://stage-api.groupdocs.com/v2.0"</span>) {
+                    <span class="variable">$iframe</span> = <span class="string">'http://stage-apps.groupdocs.com/document-annotation2/embed/'</span> .
+                            <span class="variable">$createAnnotation</span>-&gt;result-&gt;documentGuid . <span class="string">'?frameborder="0" width="720" height="600"'</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-36">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-36">&#182;</a>
+              </div>
+              <p>Iframe to realtime server</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>                } <span class="keyword">elseif</span> (<span class="variable">$basePath</span> == <span class="string">"http://realtime-api.groupdocs.com"</span>) {
+                    <span class="variable">$iframe</span> = <span class="string">'http://realtime-apps.groupdocs.com/document-annotation2/embed/'</span> .
+                            <span class="variable">$createAnnotation</span>-&gt;result-&gt;documentGuid . <span class="string">'?frameborder="0" width="720" height="600"'</span>;
+                }
+                F3::set(<span class="string">'annotationId'</span>, <span class="variable">$createAnnotation</span>-&gt;result-&gt;annotationGuid);
+                F3::set(<span class="string">'annotationType'</span>, <span class="variable">$annotationType</span>);
+                F3::set(<span class="string">'annotationText'</span>, <span class="variable">$replyText</span>);
+                F3::set(<span class="string">'url'</span>, <span class="variable">$iframe</span>);
+            }
+        } <span class="keyword">else</span> {
+            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="keyword">Exception</span>(<span class="variable">$createAnnotation</span>-&gt;error_message);
+        }
+    } <span class="keyword">catch</span> (<span class="keyword">Exception</span> <span class="variable">$e</span>) {
+        <span class="variable">$error</span> = <span class="string">'ERROR: '</span> . <span class="variable">$e</span>-&gt;getMessage() . <span class="string">"\n"</span>;
+        f3::set(<span class="string">'error'</span>, <span class="variable">$error</span>);
+    }
+}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-37">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-37">&#182;</a>
+              </div>
+              <p>Process template</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="keyword">echo</span> Template::serve(<span class="string">'sample11.htm'</span>);</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>

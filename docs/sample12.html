@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>sample12.php</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>sample12.php</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="preprocessor">&lt;?php</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap for-h3">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <h3>This sample will show how to list all annotations from document</h3>
+<p>Set variables and get POST data</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>F3::set(<span class="string">'userId'</span>, <span class="string">''</span>);
+F3::set(<span class="string">'privateKey'</span>, <span class="string">''</span>);
+F3::set(<span class="string">'fileId'</span>, <span class="string">''</span>);
+<span class="variable">$clientId</span> = F3::get(<span class="string">'POST["client_id"]'</span>);
+<span class="variable">$privateKey</span> = F3::get(<span class="string">'POST["private_key"]'</span>);
+<span class="variable">$fileId</span> = F3::get(<span class="string">'POST["fileId"]'</span>);
+<span class="keyword">if</span> (<span class="keyword">empty</span>(<span class="variable">$clientId</span>) || <span class="keyword">empty</span>(<span class="variable">$privateKey</span>) || <span class="keyword">empty</span>(<span class="variable">$fileId</span>)) {
+    <span class="variable">$error</span> = <span class="string">'Please enter all required parameters'</span>;
+    f3::set(<span class="string">'error'</span>, <span class="variable">$error</span>);
+} <span class="keyword">else</span> {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <p>Get base path</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="variable">$basePath</span> = f3::get(<span class="string">'POST["server_type"]'</span>);
+    F3::set(<span class="string">'userId'</span>, <span class="variable">$clientId</span>);
+    F3::set(<span class="string">'privateKey'</span>, <span class="variable">$privateKey</span>);
+    F3::set(<span class="string">'fileId'</span>, <span class="variable">$fileId</span>);
+
+    <span class="comment">#### Create Signer, ApiClient and Annotation Api objects</span>
+    <span class="comment"># Create signer object</span>
+    <span class="variable">$signer</span> = <span class="keyword">new</span> GroupDocsRequestSigner(<span class="variable">$privateKey</span>);
+    <span class="comment"># Create apiClient object</span>
+    <span class="variable">$apiClient</span> = <span class="keyword">new</span> ApiClient(<span class="variable">$signer</span>);
+    <span class="comment"># Create Annotation object</span>
+    <span class="variable">$antApi</span> = <span class="keyword">new</span> AntApi(<span class="variable">$apiClient</span>);
+    <span class="keyword">if</span> (<span class="variable">$basePath</span> == <span class="string">""</span>) {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p>If base base is empty seting base path to prod server</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="variable">$basePath</span> = <span class="string">'https://api.groupdocs.com/v2.0'</span>;
+    }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <p>Set base path</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="variable">$antApi</span>-&gt;setBasePath(<span class="variable">$basePath</span>);
+    <span class="comment"># Make a request to Annotation API using clientId and fileId</span>
+    <span class="keyword">try</span> {
+        <span class="variable">$list</span> = <span class="variable">$antApi</span>-&gt;ListAnnotations(<span class="variable">$clientId</span>, <span class="variable">$fileId</span>);
+        <span class="keyword">if</span> (<span class="variable">$list</span>-&gt;status == <span class="string">"Ok"</span>) {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <p>Check the result of the request</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>            <span class="keyword">if</span> (<span class="keyword">isset</span>(<span class="variable">$list</span>-&gt;result)) {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <p>If request was successfull - set annotations variable for template</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>                F3::set(<span class="string">'annotations'</span>, <span class="variable">$list</span>-&gt;result-&gt;annotations);
+            }
+        } <span class="keyword">else</span> {
+            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="keyword">Exception</span>(<span class="variable">$list</span>-&gt;error_message);
+        }
+    } <span class="keyword">catch</span> (<span class="keyword">Exception</span> <span class="variable">$e</span>) {
+        <span class="variable">$error</span> = <span class="string">'ERROR: '</span> . <span class="variable">$e</span>-&gt;getMessage() . <span class="string">"\n"</span>;
+        f3::set(<span class="string">'error'</span>, <span class="variable">$error</span>);
+    }
+}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-8">&#182;</a>
+              </div>
+              <p>Process template</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="keyword">echo</span> Template::serve(<span class="string">'sample12.htm'</span>);</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>

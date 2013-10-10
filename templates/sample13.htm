@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Powered by {{ @VERSION }}</title>
+    <style type="text/css">
+        {{ Web::minify('templates/',array('style.css'),FALSE) }}
+    </style>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+</head>
+<body>
+<h3 style="text-align:center;"><a href="/index.php">GroupDocs PHP SDK Samples</a> - Sample13</h3>
+
+<div class='samplecontent' style="padding:10px;">
+    <span class="description"><i>This sample will show how to add collaborator to doc with annotations using PHP SDK</i></span> <br/>
+    <br />
+    <span class="documentation"><a href="/docs/sample13.html">Docs for this sample</a></span>
+    <br />
+    <br/><p>You entered:
+    <p>ClientID = {{@userId}}
+    <p>PrivateKey = {{@privateKey}}
+    <p>FileId = {{@fileId}}
+    <p><span style="color: red">{{@error}}</span>
+    <div id="requestForm" style="padding:20px; border:1px solid black;">
+        <p> Enter data for request and press "Make request" button </p>
+        <form action="sample13" method = "post" enctype = 'multipart/form-data'>
+            <label for='client_id'>GroupDocs ClientID</label>
+            <br />
+            <input type='text' name='client_id' id="client_id" value="{{@userId}}" />
+            <br />
+            <label for='private_key'>GroupDocs PrivateKey</label>
+            <br />
+            <input type='text' name='private_key' id="private_key" value="{{@privateKey}}" />
+            <br />
+            <input type="radio" name="sourse" value="guid" id="id" onClick="display('guid');" checked>File ID (GUID) </input>
+            <br />
+            <input type="radio" name="sourse" value="local" id="localField" onClick="display('local');" >Upload local file </input>
+            <br />
+            <input type="radio" name="sourse" value="url" id="urlRadio" onClick="display('url');" >Upload file from URL </input>
+            <br />
+            <br />
+            <label for='private_key' id="guid">GroupDocs fileID</label>
+            <br />
+            <input type='text' name='fileId' id="guidfield" value="{{@fileId}}" />
+            
+            <label for='file' id="file" style="display:none;">Local file</label>
+            <br />
+            <input type='file' name='file' id="filefield" style="display:none;" />
+
+            <label for='private_key' style="display:none;" id="url">File URL</label>
+            <br />
+            <input type='text' name='url'  value="" id="urlfield" style="display:none;" />
+            <br />
+            <label>Collaborations</label>
+            <br />
+            <div id="collaborators">
+                <div>
+                    <input type='text' name='email'  value="" />
+                </div>
+            </div>
+            <br />
+            <label for='server_type'>Base path<span class="optional">(Optional)</span></label>
+            <br />
+            <input type ="text" name="server_type" id="server_type" />
+            <br />
+            <input type='submit' value='Make Request'/>
+        </form>
+    </div>
+    <div  style="padding:20px; border:1px solid black;">
+        <p> Results: </p>
+        <p>New collaborations:
+            <repeat group="{{ @result->collaborators }}" value="{{ @item }}">
+                <span style="color: green">{{ @item->primary_email }}</span>
+            </repeat>
+        </p>
+    </div>
+</div>
+
+ <include href="links.htm" />
+<script type="text/javascript">
+    function display(_element_id) {
+
+             if (_element_id == "guid") {
+                 var element1 = document.getElementById("file");
+                 var element2 = document.getElementById("filefield");
+                 var element3 = document.getElementById("url");
+                 var element4 = document.getElementById("urlfield");
+                 var element5 = document.getElementById("guid");
+                 var element6 = document.getElementById("guidfield");
+                 element1.style.display = "none";
+                 element2.style.display = "none";
+                 element3.style.display = "none";
+                 element4.style.display = "none";
+                 element5.style.display = "inline";
+                 element6.style.display = "inline";
+
+             }
+
+             if (_element_id == "local") {
+                 var element1 = document.getElementById("file");
+                 var element2 = document.getElementById("filefield");
+                 var element3 = document.getElementById("url");
+                 var element4 = document.getElementById("urlfield");
+                 var element5 = document.getElementById("guid");
+                 var element6 = document.getElementById("guidfield");
+                 element1.style.display = "inline";
+                 element2.style.display = "inline";
+                 element3.style.display = "none";
+                 element4.style.display = "none";
+                 element5.style.display = "none";
+                 element6.style.display = "none";
+
+             }
+
+             if (_element_id == "url") {
+                 var element1 = document.getElementById("url");
+                 var element2 = document.getElementById("urlfield");
+                 var element3 = document.getElementById("file");
+                 var element4 = document.getElementById("filefield");
+                 var element5 = document.getElementById("guid");
+                 var element6 = document.getElementById("guidfield");
+                 element1.style.display = "inline";
+                 element2.style.display = "inline";
+                 element3.style.display = "none";
+                 element4.style.display = "none";
+                 element5.style.display = "none";
+                 element6.style.display = "none";
+             }
+
+         }
+</script>
+</body>
+</html>

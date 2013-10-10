@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>sample20.php</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>sample20.php</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="preprocessor">&lt;?php</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap for-h3">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <h3><i>This sample will show how to use <b>GetChanges</b> method from ComparisonApi to return a list of changes of a Document</i></h3>
+<p>Set variables and get POST data</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>F3::set(<span class="string">'userId'</span>, <span class="string">''</span>);
+F3::set(<span class="string">'privateKey'</span>, <span class="string">''</span>);
+f3::set(<span class="string">'result'</span>, <span class="string">""</span>);
+<span class="variable">$clientId</span> = F3::get(<span class="string">'POST["client_id"]'</span>);
+<span class="variable">$privateKey</span> = F3::get(<span class="string">'POST["private_key"]'</span>);
+<span class="variable">$resultFileId</span> = f3::get(<span class="string">'POST["resultFileId"]'</span>);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap for-h3">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <h3>Check clientId, privateKey and fileGuId</h3>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="keyword">if</span> (<span class="keyword">empty</span>(<span class="variable">$clientId</span>) || <span class="keyword">empty</span>(<span class="variable">$privateKey</span>) || <span class="keyword">empty</span>(<span class="variable">$resultFileId</span>)) {
+    <span class="variable">$error</span> = <span class="string">'Please enter all required parameters'</span>;
+    f3::set(<span class="string">'error'</span>, <span class="variable">$error</span>);
+} <span class="keyword">else</span> {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p>Get base path</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="variable">$basePath</span> = f3::get(<span class="string">'POST["server_type"]'</span>);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <p>Set variables for Viewer</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    F3::set(<span class="string">'userId'</span>, <span class="variable">$clientId</span>);
+    F3::set(<span class="string">'privateKey'</span>, <span class="variable">$privateKey</span>);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap for-h3">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <h3>Create Signer, ApiClient and Storage Api objects</h3>
+<p>Create signer object</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="variable">$signer</span> = <span class="keyword">new</span> GroupDocsRequestSigner(<span class="variable">$privateKey</span>);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <p>Create apiClient object</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="variable">$apiClient</span> = <span class="keyword">new</span> APIClient(<span class="variable">$signer</span>);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-8">&#182;</a>
+              </div>
+              <p>Create ComparisonApi object</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="variable">$compareApi</span> = <span class="keyword">new</span> ComparisonApi(<span class="variable">$apiClient</span>);
+    <span class="keyword">if</span> (<span class="variable">$basePath</span> == <span class="string">""</span>) {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-9">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-9">&#182;</a>
+              </div>
+              <p>If base base is empty seting base path to prod server</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="variable">$basePath</span> = <span class="string">'https://api.groupdocs.com/v2.0'</span>;
+    }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-10">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-10">&#182;</a>
+              </div>
+              <p>Set base path</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="variable">$compareApi</span>-&gt;setBasePath(<span class="variable">$basePath</span>);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-11">
+            <div class="annotation">
+              
+              <div class="pilwrap for-h3">
+                <a class="pilcrow" href="#section-11">&#182;</a>
+              </div>
+              <h3>Make request to ComparisonApi using user id</h3>
+<p>Get changes list for document</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="keyword">try</span> {
+        <span class="variable">$info</span> = <span class="variable">$compareApi</span>-&gt;GetChanges(<span class="variable">$clientId</span>, <span class="variable">$resultFileId</span>);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-12">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-12">&#182;</a>
+              </div>
+              <p>Check request status</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="keyword">if</span> (<span class="variable">$info</span>-&gt;status == <span class="string">"Ok"</span>) {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-13">
+            <div class="annotation">
+              
+              <div class="pilwrap for-h3">
+                <a class="pilcrow" href="#section-13">&#182;</a>
+              </div>
+              <h3>Create table with changes for template</h3>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>            <span class="variable">$table</span> = <span class="string">"&lt;table class='border'&gt;"</span>;
+            <span class="variable">$table</span> .= <span class="string">"&lt;tr&gt;&lt;td&gt;&lt;font color='green'&gt;Change Name&lt;/font&gt;&lt;/td&gt;&lt;td&gt;
+                    &lt;font color='green'&gt;Change&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;"</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-14">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-14">&#182;</a>
+              </div>
+              <p>Count of iterations</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>            <span class="keyword">for</span> (<span class="variable">$i</span> = <span class="number">0</span>; <span class="variable">$i</span> &lt; count(<span class="variable">$info</span>-&gt;result-&gt;changes); <span class="variable">$i</span>++) {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-15">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-15">&#182;</a>
+              </div>
+              <p>Cycle for the massif of the top level</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>                <span class="keyword">foreach</span> (<span class="variable">$info</span>-&gt;result-&gt;changes[<span class="variable">$i</span>] <span class="keyword">as</span> <span class="variable">$name</span> =&gt; <span class="variable">$content</span>) {
+                    <span class="variable">$table</span> .= <span class="string">"&lt;tr&gt;"</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-16">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-16">&#182;</a>
+              </div>
+              <p>Check is curent element is object</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>                    <span class="keyword">if</span> (is_object(<span class="variable">$content</span>)) {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-17">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-17">&#182;</a>
+              </div>
+              <p>If object make cycle for the curent object</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>                        <span class="keyword">foreach</span> (<span class="variable">$content</span> <span class="keyword">as</span> <span class="variable">$subName</span> =&gt; <span class="variable">$subContent</span>) {
+
+                            <span class="variable">$table</span> .= <span class="string">"&lt;tr&gt;&lt;td&gt;"</span> . <span class="variable">$subName</span> . <span class="string">"&lt;/td&gt;&lt;td&gt;"</span> . <span class="variable">$subContent</span> . <span class="string">"&lt;/td&gt;&lt;/tr&gt;"</span>;
+                        }
+                    } <span class="keyword">elseif</span> (!is_object(<span class="variable">$content</span>)) {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-18">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-18">&#182;</a>
+              </div>
+              <p>Get curent element data</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>                        <span class="variable">$table</span> .= <span class="string">"&lt;td&gt;"</span> . <span class="variable">$name</span> . <span class="string">"&lt;/td&gt;&lt;td&gt;"</span> . <span class="variable">$content</span> . <span class="string">"&lt;/td&gt;"</span>;
+                        <span class="variable">$table</span> .= <span class="string">"&lt;/tr&gt;"</span>;
+                    }
+                }
+                <span class="variable">$table</span> .= <span class="string">"&lt;tr bgcolor='#808080'&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;"</span>;
+            }
+            <span class="variable">$table</span> .= <span class="string">"&lt;/table&gt;"</span>;
+            f3::set(<span class="string">'change'</span>, <span class="variable">$table</span>);
+        } <span class="keyword">else</span> {
+            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="keyword">Exception</span>(<span class="variable">$info</span>-&gt;error_message);
+        }
+    } <span class="keyword">catch</span> (<span class="keyword">Exception</span> <span class="variable">$e</span>) {
+        <span class="variable">$error</span> = <span class="string">'ERROR: '</span> . <span class="variable">$e</span>-&gt;getMessage() . <span class="string">"\n"</span>;
+        f3::set(<span class="string">'error'</span>, <span class="variable">$error</span>);
+    }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-19">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-19">&#182;</a>
+              </div>
+              <p>If request was successfull - set url variable for template
+           return f3::set(&#39;change&#39;, $table);</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-20">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-20">&#182;</a>
+              </div>
+              <p>Process template</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>f3::set(<span class="string">'resultFileId'</span>, <span class="variable">$resultFileId</span>);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-21">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-21">&#182;</a>
+              </div>
+              <p>   f3::set(&#39;result&#39;, $result);</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="keyword">echo</span> Template::serve(<span class="string">'sample20.htm'</span>);</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>

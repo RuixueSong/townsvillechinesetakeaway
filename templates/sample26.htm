@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<title>Powered by {{ @VERSION }}</title>
+	<style type="text/css">
+		{{ Web::minify('templates/',array('style.css'),FALSE) }}
+	</style>
+</head>
+<body>
+<h3 style="text-align:center;"><a href="/index.php">GroupDocs PHP SDK Samples</a> - Sample26</h3>
+
+<div class='samplecontent' style="padding:10px;">
+   <span class="description"><i>This sample will show how to use Login object to be authorized at GroupDocs using PHP SDK</i></span> <br/>
+   <br />
+   <span class="documentation"><a href="docs/sample26.html">Docs for this sample</a></span>
+   
+   <p><font color="red">{{@error}}</font>
+   <div  style="padding:20px; border:1px solid black;">
+        <p> Results: </p>
+        <table style="border:1px double black;">
+          <tr>
+              <th>Field</th><th>Value</th>
+          </tr>
+          <tr>
+               <td>First Name</td><td>{{@userInfo->firstname}}</td>
+          </tr>
+          <tr>
+               <td>Last Name</td><td>{{@userInfo->lastname}}</td>
+          </tr>
+          <tr>
+               <td>Nick Name</td><td>{{@userInfo->nickname}}</td>
+          </tr>
+          <tr>
+               <td>Primary Email</td><td>{{@userInfo->primary_email}}</td>
+          </tr>
+           <tr>
+               <td>GUID</td><td>{{@userInfo->guid}}</td>
+          </tr> 
+          <tr>
+               <td>Private key</td><td>{{@userInfo->pkey}}</td>
+          </tr>
+        </table>
+        
+   </div>
+   <br/>
+   <div id="requestForm" style="padding:20px; border:1px solid black;">
+   <p> Enter data for request and press "Make request" button </p>
+   <form action="sample26" method = "post" enctype = 'multipart/form-data'>
+        <label for='login'>Login</label>
+        <br />
+        <input type='text' name='login' value="{{@login}}" />
+        <br />
+        <label for='password'>Password</label>
+        <br />
+        <input type='text' name='password'  value="{{@password}}" />
+        <br />             
+        <label for='server_type'>Base path<span class="optional">(Optional)</span></label>
+        <br />
+        <input type ="text" name="server_type" id="server_type" />
+        <br />
+        <input type='submit' value='Make Request'/>
+    </form>
+    </div>
+</div>
+
+ <include href="links.htm" />
+</body>
+</html>

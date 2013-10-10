@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Powered by {{ @VERSION }}</title>
+    <style type="text/css">
+        {{ Web::minify('templates/',array('style.css'),FALSE) }}
+    </style>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" ></script>
+</head>
+<body>
+<h3 style="text-align:center;"><a href="/index.php">GroupDocs PHP SDK Samples</a> - Sample18</h3>
+
+<div class='samplecontent' style="padding:10px;">
+    <span class="description"><i>This sample will show how to use <b>ConvertFile</b> method to convert Doc to Docx, Docx to Doc, Docx and DOC to PDF and PPT to PDF, HTML to DOC and DOCX. When you use optional parameter "Callback URL" - additional logic will be involved: POST request from GroupDocs API server will be handled by convert_callback action. Also from result page an AJAX request will be sent to backend to check if callback was handled and result file was downloaded. If yes, then AJAX request will return a link to the file using PHP SDK</i></span> <br/>
+    <br />
+    <span class="documentation"><a href="/docs/sample18.html">Docs for this sample</a></span>
+    <br />
+    <p><span style="color: green">You entered: </span></p>
+		<p>ClientID = {{@userId}}</p>
+		<p>Private Key = {{@privateKey}}</p>
+		<p>File Id = {{@fileId}} </p>
+		<p>Convert type = {{@convert_type}}</p>
+    <br />
+    <p><span style="color: red">{{@error}}</span>
+    <div id="requestForm" style="padding:20px; border:1px solid black;">
+        <p> Enter data for request and press "Make request" button </p>
+        <form action="sample18" method = "post" enctype = 'multipart/form-data'>
+            <label for='client_id'>GroupDocs Client ID</label>
+            <br />
+            <input type='text' name='client_id' id="client_id" value="{{@userId}}" />
+            <br />
+            <label for='private_key'>GroupDocs Private Key</label>
+            <br />
+            <input type='text' name='private_key' id="private_key" value="{{@privateKey}}" />
+            <br />
+            <input type="radio" name="sourse" value="guid" id="id" onClick="display('guid');" checked>File ID (GUID) </input>
+            <br />
+            <input type="radio" name="sourse" value="local" id="localField" onClick="display('local');" >Upload local file </input>
+            <br />
+            <input type="radio" name="sourse" value="url" id="urlFieldR" onClick="display('url');" >Upload file from URL </input>
+            <br />
+            <br />
+            <label for='private_key' id="guid">GroupDocs fileID</label>
+            <br />
+            <input type='text' name='fileId' id="guidfield" value="{{@fileId}}" />
+            
+            <label for='file' id="file" style="display:none;">Local file</label>
+            <br />
+            <input type='file' name='file' id="filefield" style="display:none;" />
+
+            <label for='private_key' style="display:none;" id="url">File URL</label>
+            <br />
+            <input type='text' name='url'  value="" id="urlfield" style="display:none;" />
+            <br />
+            <label for='callbackUrl'>callbackUrl<span class="optional">(Optional)<br />For test Callback you can use this URL: http://groupdocs-php-samples.herokuapp.com/callbacks/convert_callback</span></label>
+            <br />
+            <input type='text' name='callbackUrl' id="callbackUrl" value="{{@callbackUrl}}" />
+            <br />
+            <label for='server_type'>Base path<span class="optional">(Optional)</span></label>
+            <br />
+            <input type ="text" name="server_type" id="server_type" />
+            <br />
+            <input type='submit' value='Make Request'/>
+            <select name="convert_type" id="convert_type">
+                            <option value="doc">Doc</option>
+                            <option value="pdf">PDF</option>
+                            <option value="docx">Docx</option>
+                            <option value="ppt">PPT</option>
+            </select>
+            <span id="results_status" style="color:red;display:none;"> (Please wait for ajax response) </span>
+            <div id="link"></div>
+        </form>
+        <br>
+        <a href="/templates/testdocument.html">Download sample HTML file 1</a> <br>
+        <a href="/templates/base-simple_source.html">Download sample HTML file 2</a> <br />
+        <a href="/templates/sampledoc3.html">Download sample HTML file 3</a>
+        <br />
+        <iframe id="downloadframe" style="display:none"></iframe>
+    </div>
+    <div  id="result" style="padding:20px; border:1px solid black;">
+        <p> Results: </p>
+        <p><span style="color: red">{{@error_message}}</span>
+        <iframe src="{{ @iframe }}"></iframe>
+    </div>
+</div>
+
+ <include href="links.htm" />
+ <script type="text/javascript">
+     $(document).ready(setTimeout(check, 5000));
+            
+         function check() {
+             
+             if (($("input[name=callbackUrl]").val() != "") && (document.getElementById("result") != null)) {
+                 $('#results_status').fadeIn("slow");
+                 form = document.forms.form;
+                 $.ajax({
+                     type: 'POST',
+                     url: '/callbacks/check_file',
+                     success: function (data) {
+                         $('#results_status').fadeOut("slow");
+                         div = document.getElementById("link");
+                         p = document.createElement("p");
+                         if (data == "File was not found. Looks like something went wrong.") {
+                             p.innerHTML = "<br /> " + data ;
+                         } else {
+                             p.innerHTML = "<br /> File " + data + " was downloaded.";
+							 $("#downloadframe").attr("src", "/callbacks/download_file?FileName=" + data);
+                         }
+                         div.appendChild(p);
+                        
+                     },
+                     dataType: "text"
+                 });
+             }
+         }
+    function display(_element_id) {
+
+             if (_element_id == "guid") {
+                 var element1 = document.getElementById("file");
+                 var element2 = document.getElementById("filefield");
+                 var element3 = document.getElementById("url");
+                 var element4 = document.getElementById("urlfield");
+                 var element5 = document.getElementById("guid");
+                 var element6 = document.getElementById("guidfield");
+                 element1.style.display = "none";
+                 element2.style.display = "none";
+                 element3.style.display = "none";
+                 element4.style.display = "none";
+                 element5.style.display = "inline";
+                 element6.style.display = "inline";
+
+             }
+
+             if (_element_id == "local") {
+                 var element1 = document.getElementById("file");
+                 var element2 = document.getElementById("filefield");
+                 var element3 = document.getElementById("url");
+                 var element4 = document.getElementById("urlfield");
+                 var element5 = document.getElementById("guid");
+                 var element6 = document.getElementById("guidfield");
+                 element1.style.display = "inline";
+                 element2.style.display = "inline";
+                 element3.style.display = "none";
+                 element4.style.display = "none";
+                 element5.style.display = "none";
+                 element6.style.display = "none";
+
+             }
+
+             if (_element_id == "url") {
+                 var element1 = document.getElementById("url");
+                 var element2 = document.getElementById("urlfield");
+                 var element3 = document.getElementById("file");
+                 var element4 = document.getElementById("filefield");
+                 var element5 = document.getElementById("guid");
+                 var element6 = document.getElementById("guidfield");
+                 element1.style.display = "inline";
+                 element2.style.display = "inline";
+                 element3.style.display = "none";
+                 element4.style.display = "none";
+                 element5.style.display = "none";
+                 element6.style.display = "none";
+             }
+
+         }
+</script>
+</body>
+</html>
