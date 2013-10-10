@@ -1,64 +1,49 @@
-## Examples
+README
+======
+![PrestaShop](http://www.prestashop.com/images/banners/general/prestashop_728x90.png "PrestaShop")
 
-### GroupDocs PHP SDK Api samples
+ABOUT
+--------
 
-This is the GroupDocs PHP SDK Api samples application written with FatFree framework. Here you can find a lot of samples of GroupDocs SDK API functions using.
-
-### How to deploy and run samples
-
- 1. Download api-samples folder or full SDK (you can find api-samples under examples folder).
- 2. Copy all files from api-samples folder to web root folder.
- 3. Configure composer.json to use required PHP SDK version.
- 4. Open console, cd to web root folder and run command: php composer.phar install (this will download GroupDocs PHP SDK into vendor folder and create autoload.php).
- 5. Restart apache and open "VIRTUALHOST_NAME"/index.php.
-
-### Requirements:
-
-* PHP 5.3
-* Apache ModRewrite
-* PHP Curl extension
-* PHP Sockets extension (php_sockets.dll)
-* composer.phar (http://getcomposer.org/download/ or use included version)
-
-### How to configure composer.json
-
-To download required version of PHP SDK with composer it's enough to set this setting to composer.json
-
-     {
-         "require": {
-             "groupdocs/groupdocs-php": "v1.4.0"
-         }
-      }
-
-To update sdk: php composer.phar update
-
-To see all available PHP SDK versions tags visit this page - https://packagist.org/packages/groupdocs/groupdocs-php
-
-### List of samples:
-
-* How to authorize to GroupDocs using the API and get user info
-* How to list files within GroupDocs Storage using the Storage API
-* How to upload a file to GroupDocs using the Storage API
-* How to download a file from GroupDocs Storage using the Storage API
-* How to copy / move a file using the GroupDocs Storage API
-* How to add a Signature to a document in GroupDocs Signature
-* How to create a list of thumbnails for a document
-* How to return a URL representing a single page of a Document
-* How to generate an embedded Viewer URL for a Document
-* How to share a document to other users
-* How programmatically create and post an annotation into document. How to delete the annotation
-* How to list all annotations from document
-* How to add collaborator to doc with annotations
-* How to check the list of shares for a folder
-* How to check the number of document's views
-* How to insert Assembly questionary into webpage
-* How to upload a file into the storage and compress it into zip archive
+PrestaShop is a free and open-source e-commerce web application, committed to providing the best shopping cart experience for both merchants and consumers.
 
 
+SERVER CONFIGURATION
+--------
 
-###[View, Sign, Manage, Annotate, Assemble, Compare and Convert Documents with GroupDocs](http://groupdocs.com)
-* [View and Annotate Doc, PDF, Docx, PPT and other documents online with GroupDocs Viewer](http://groupdocs.com/apps)
-* [All GroupDocs SDK] (http://groupdocs.com/api/sdk-platforms)
-* [All GroupDocs SDK examples] (http://groupdocs.com/api/sdk-examples)
+To install PrestaShop, you need a web server running PHP5 and any flavor of MySQL5 (MySQL, MariaDB, Percona Server...).
+You will also need a database administration tool, such as phpMyAdmin, in order to create a database for PrestaShop.
+We recommend the Apache or Nginx web servers.
 
-###Created by [Marketplace Team](http://groupdocs.com/marketplace/).
+If your host does not offer PHP5 by default, here are a few [explanations][2] about PHP5 or the .htaccess file for certain hosting services (1&1, Free, Lycos, OVH, Infomaniak, Amen, GoDaddy, etc).
+
+If you want your online store ready to go, visit [http://www.prestabox.com][1]: it lets you create your online store in less than 10 minutes without any technical knowledge.
+
+
+INSTALLATION
+--------
+
+With your web browser, go to the root of your PrestaShop directory, and the installer will start. Follow the instructions until PrestaShop is installed.
+
+If you have any PHP error, perhaps you don't have PHP5 or you need to activate it on your web host. See the page linked above.
+If you don't find any solution to start the installer, please post on [the PrestaShop forums][3].
+
+
+DOCUMENTATION
+--------
+
+The official PrestaShop documentation is available online [on its own website][4].
+
+
+FORUMS
+--------
+
+You can discuss, help and contribute with PrestaShop community on [the PrestaShop forums][5].
+
+Thank you for downloading and using PrestaShop e-commerce Open-source solution!
+
+[1]: http://www.prestabox.com
+[2]: http://www.prestashop.com/forums/topic/2946-pre-installation-settings-php-5-htaccess-for-certain-hosting-services/
+[3]: http://www.prestashop.com/forums/forum/7-installing-prestashop/
+[4]: http://doc.prestashop.com
+[5]: http://www.prestashop.com/forums/
